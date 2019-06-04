@@ -1,0 +1,89 @@
+CREATE TABLE `rentable`.`company` (
+  `Company_ID` INT NOT NULL AUTO_INCREMENT,
+  `Company_Name` VARCHAR(45) NULL,
+  `Address_1` VARCHAR(45) NULL,
+  `Address_2` VARCHAR(45) NULL,
+  `City` VARCHAR(45) NULL,
+  `State` VARCHAR(45) NULL,
+  `Zip` VARCHAR(45) NULL,
+  `Country` VARCHAR(45) NULL,
+  `Phone` VARCHAR(45) NULL,
+  `Fax` VARCHAR(45) NULL,
+  `Website` VARCHAR(45) NULL,
+  `Sales_Tax_Rate` FLOAT(11) NULL,
+  PRIMARY KEY (`Company_ID`),
+  UNIQUE INDEX `Company_ID_UNIQUE` (`Company_ID` ASC));
+
+
+CREATE TABLE `rentable`.`customers` (
+  `Customer_ID` INT NOT NULL AUTO_INCREMENT,
+  `First_Name` VARCHAR(45) NULL,
+  `Last_Name` VARCHAR(45) NULL,
+  `Billing_Address_1` VARCHAR(45) NULL,
+  `Billing_Address_2` VARCHAR(45) NULL,
+  `Billing_City` VARCHAR(45) NULL,
+  `Billing_State` VARCHAR(45) NULL,
+  `Billing_Zip` VARCHAR(45) NULL,
+  `Billing_Country` VARCHAR(45) NULL,
+  `Delivery_Address_1` VARCHAR(45) NULL,
+  `Delivery_Address_2` VARCHAR(45) NULL,
+  `Delivery_City` VARCHAR(45) NULL,
+  `Delivery_State` VARCHAR(45) NULL,
+  `Delivery_Zip` VARCHAR(45) NULL,
+  `Delivery_Country` VARCHAR(45) NULL,
+  `Phone_1` VARCHAR(45) NULL,
+  `Phone_2` VARCHAR(45) NULL,
+  `Notes` VARCHAR(255) NULL,
+  PRIMARY KEY (`Customer_ID`),
+  UNIQUE INDEX `Customer_ID_UNIQUE` (`Customer_ID` ASC));
+
+ALTER TABLE `rentable`.`customers` 
+ADD COLUMN `Company_ID` INT(11) NOT NULL AFTER `Notes`,
+ADD COLUMN `User_ID` INT(11) NOT NULL AFTER `Company_ID`;
+
+CREATE TABLE `rentable`.`vendors` (
+  `Vendor_ID` INT NOT NULL AUTO_INCREMENT,
+  `Vendor_Name` VARCHAR(45) NULL,
+  `Vendor_Address_1` VARCHAR(45) NULL,
+  `Vendor_Address_2` VARCHAR(45) NULL,
+  `Vendor_City` VARCHAR(45) NULL,
+  `Vendor_State` VARCHAR(45) NULL,
+  `Vendor_Zip` VARCHAR(45) NULL,
+  `Vendor_Country` VARCHAR(45) NULL,
+  `Phone` VARCHAR(45) NULL,
+  `Fax` VARCHAR(45) NULL,
+  `Website` VARCHAR(45) NULL,
+  PRIMARY KEY (`Vendor_ID`),
+  UNIQUE INDEX `Vendor_ID_UNIQUE` (`Vendor_ID` ASC));
+
+ALTER TABLE `rentable`.`vendors` 
+ADD COLUMN `Company_ID` INT(11) NOT NULL AFTER `Website`,
+ADD COLUMN `User_ID` INT(11) NOT NULL AFTER `Company_ID`;
+
+CREATE TABLE `rentable`.`item_categories` (
+  `Item_Category_ID` INT NOT NULL AUTO_INCREMENT,
+  `Name` VARCHAR(45) NOT NULL,
+  `Description` VARCHAR(45) NULL,
+  PRIMARY KEY (`Item_Category_ID`),
+  UNIQUE INDEX `Item_Category_ID_UNIQUE` (`Item_Category_ID` ASC));
+
+ALTER TABLE `rentable`.`item_categories` 
+ADD COLUMN `Company_ID` INT(11) NOT NULL AFTER `Description`,
+ADD COLUMN `User_ID` INT(11) NOT NULL AFTER `Company_ID`;
+
+CREATE TABLE `rentable`.`items` (
+  `Item_ID` INT NOT NULL AUTO_INCREMENT,
+  `Item_Category_ID` INT(11) NULL,
+  `Vendor_ID` INT(11) NULL,
+  `Item_Name` VARCHAR(45) NOT NULL,
+  `Part_Number` VARCHAR(45) NOT NULL,
+  `Serial_Number` VARCHAR(45) NULL,
+  `Tracking_Number` VARCHAR(45) NULL,
+  `Status` VARCHAR(45) NOT NULL,
+  `Date_In_Service` DATETIME NOT NULL,
+  `Date_Sold` DATETIME NULL,
+  `Taxable_Status` TINYINT(1) NULL,
+  `Company_ID` VARCHAR(45) NOT NULL,
+  `User_ID` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`Item_ID`),
+  UNIQUE INDEX `Item_ID_UNIQUE` (`Item_ID` ASC));
