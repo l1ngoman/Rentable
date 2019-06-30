@@ -1,3 +1,17 @@
+<!--
+*************************************************
+* File Name: companies/new.php
+*************************************************
+* Authors:
+*
+* Andrew T. Garrett
+*
+*************************************************
+* Description:
+*
+* View to add new company
+*************************************************
+-->
 <?php
 
     echo "  <main class='container'>
@@ -9,7 +23,7 @@
                     </nav>
                 </header>";
 
-    echo "      <form id='NewCompanyForm' action='/index.php/company/SubmitNewCompanyData' method='post' enctype='multipart/form-data'>";
+    echo "      <form id='NewCompanyForm' action='/index.php/companies/SubmitNewCompanyData' method='post' enctype='multipart/form-data'>";
     echo "          <div>
                         <label for='Company_Name'>Company Name</label>
                         <input name='Company_Name' placeholder='Name'>

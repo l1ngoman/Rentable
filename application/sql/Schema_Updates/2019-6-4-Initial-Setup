@@ -39,7 +39,12 @@ CREATE TABLE `rentable`.`customers` (
 
 ALTER TABLE `rentable`.`customers` 
 ADD COLUMN `Company_ID` INT(11) NOT NULL AFTER `Notes`,
-ADD COLUMN `User_ID` INT(11) NOT NULL AFTER `Company_ID`;
+ADD COLUMN `User_ID` INT(11) NOT NULL AFTER `Company_ID`
+CHANGE COLUMN `Last_Name` `Last_Name` VARCHAR(45) NOT NULL ;
+
+ALTER TABLE `rentable`.`customers` 
+ADD COLUMN `Active` TINYINT(1) NOT NULL AFTER `User_ID`;
+
 
 CREATE TABLE `rentable`.`vendors` (
   `Vendor_ID` INT NOT NULL AUTO_INCREMENT,

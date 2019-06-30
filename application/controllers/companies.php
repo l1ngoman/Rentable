@@ -1,6 +1,6 @@
 <!--
 *************************************************
-* File Name: Company.php
+* File Name: companies.php
 *************************************************
 * Authors:
 *
@@ -12,13 +12,16 @@
 * This controller is for setup only and should only
 * be accessible by adminstrators.
 *************************************************
+-->
 <?php
 
-	class Company extends CI_Controller {
+	class Companies extends CI_Controller {
+
 
 		public function NewCompany()
 		{
-			$this->load->view('company/new.php');
+			$this->load->view('templates/header.php');
+			$this->load->view('companies/new.php');
 		}
 
 		public function SubmitNewCompanyData()
@@ -37,9 +40,10 @@
 			$Website = $this->input->post('Website');
 			$Sales_Tax_Rate = $this->input->post('Sales_Tax_Rate');
 
-			$this->Company_DB->InsertNewCompanyData($Company_Name, $Address_1, $Address_2, $City, $State, $Zip, $Country, $Phone, $Fax, $Website, $Sales_Tax_Rate);
+			$this->Company_DB->InsertNewCompanyData($Company_Name, $Address_1, $Address_2, 
+				$City, $State, $Zip, $Country, $Phone, $Fax, $Website, $Sales_Tax_Rate);
 
-			return header("Location: /");
+			redirect('/', 'location');
 		}
 	}
 ?>

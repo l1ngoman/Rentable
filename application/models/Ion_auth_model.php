@@ -956,6 +956,7 @@ class Ion_auth_model extends CI_Model
 				// Regenerate the session (for security purpose: to avoid session fixation)
 				$this->session->sess_regenerate(FALSE);
 
+
 				$this->trigger_events(['post_login', 'post_login_successful']);
 				$this->set_message('login_successful');
 
