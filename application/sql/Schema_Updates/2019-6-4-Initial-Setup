@@ -1,6 +1,6 @@
-CREATE TABLE `rentable`.`company` (
+CREATE TABLE `rentable`.`companies` (
   `Company_ID` INT NOT NULL AUTO_INCREMENT,
-  `Company_Name` VARCHAR(45) NULL,
+  `Company_Name` VARCHAR(45) NOT NULL,
   `Address_1` VARCHAR(45) NULL,
   `Address_2` VARCHAR(45) NULL,
   `City` VARCHAR(45) NULL,
@@ -11,6 +11,7 @@ CREATE TABLE `rentable`.`company` (
   `Fax` VARCHAR(45) NULL,
   `Website` VARCHAR(45) NULL,
   `Sales_Tax_Rate` FLOAT(11) NULL,
+  `Local_Timezone` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`Company_ID`),
   UNIQUE INDEX `Company_ID_UNIQUE` (`Company_ID` ASC));
 
@@ -58,23 +59,23 @@ CREATE TABLE `rentable`.`vendors` (
   `Phone` VARCHAR(45) NULL,
   `Fax` VARCHAR(45) NULL,
   `Website` VARCHAR(45) NULL,
+  `Company_ID` INT(11) NOT NULL,
+  `User_ID` INT(11) NOT NULL,
+  `Active` TINYINT(1) NULL,
+  `Vendor_Notes` TEXT NULL,
   PRIMARY KEY (`Vendor_ID`),
   UNIQUE INDEX `Vendor_ID_UNIQUE` (`Vendor_ID` ASC));
 
-ALTER TABLE `rentable`.`vendors` 
-ADD COLUMN `Company_ID` INT(11) NOT NULL AFTER `Website`,
-ADD COLUMN `User_ID` INT(11) NOT NULL AFTER `Company_ID`;
 
 CREATE TABLE `rentable`.`item_categories` (
   `Item_Category_ID` INT NOT NULL AUTO_INCREMENT,
   `Name` VARCHAR(45) NOT NULL,
   `Description` VARCHAR(45) NULL,
+  `Company_ID` INT(11) NOT NULL,
+  `User_ID` INT(11) NOT NULL,
+  `Active` TINYINT(1) NULL,
   PRIMARY KEY (`Item_Category_ID`),
   UNIQUE INDEX `Item_Category_ID_UNIQUE` (`Item_Category_ID` ASC));
-
-ALTER TABLE `rentable`.`item_categories` 
-ADD COLUMN `Company_ID` INT(11) NOT NULL AFTER `Description`,
-ADD COLUMN `User_ID` INT(11) NOT NULL AFTER `Company_ID`;
 
 CREATE TABLE `rentable`.`items` (
   `Item_ID` INT NOT NULL AUTO_INCREMENT,
@@ -90,5 +91,38 @@ CREATE TABLE `rentable`.`items` (
   `Taxable_Status` TINYINT(1) NULL,
   `Company_ID` VARCHAR(45) NOT NULL,
   `User_ID` VARCHAR(45) NOT NULL,
+  `Active` TINYINT(1) NULL,
+  `Item_TimeStamp` DATETIME NULL,
   PRIMARY KEY (`Item_ID`),
   UNIQUE INDEX `Item_ID_UNIQUE` (`Item_ID` ASC));
+
+CREATE TABLE `rentable`.`sales_orders` (
+  `SO_ID` INT NOT NULL AUTO_INCREMENT,
+  `Customer_ID` INT NOT NULL,
+  `SO_Status` VARCHAR(45) NOT NULL,
+  `Subtotal_Amount` FLOAT NOT NULL,
+  `Tax_Amount` FLOAT NOT NULL,
+  `Total_Amount` FLOAT NOT NULL,
+  `Total_Taxable` FLOAT NOT NULL,
+  `Total_NonTaxable` FLOAT NOT NULL,
+  `SO_Notes` TEXT NULL,
+  `SO_TimeStamp` DATETIME NOT NULL,
+  `User_ID` INT NOT NULL,
+  `Company_ID` INT NOT NULL,
+  PRIMARY KEY (`SO_ID`),
+  UNIQUE INDEX `SO_ID_UNIQUE` (`SO_ID` ASC));
+
+CREATE TABLE `rentable`.`sales_order_items` (
+  `SO_Item_ID` INT NOT NULL AUTO_INCREMENT,
+  `SO_ID` INT NOT NULL,
+  `Item_ID` INT NOT NULL,
+  `SO_Item_Quantity` INT(11) NOT NULL,
+  `SO_Item_Amount` FLOAT NOT NULL,
+  `SO_Item_Tax` FLOAT NOT NULL,
+  `SO_Item_Notes` TEXT NULL,
+  `SO_Item_TimeStamp` DATETIME NOT NULL,
+  `User_ID` INT NOT NULL,
+  `Company_ID` INT NOT NULL,
+  PRIMARY KEY (`SO_Item_ID`),
+  UNIQUE INDEX `SO_Item_ID` (`SO_Item_ID` ASC));
+

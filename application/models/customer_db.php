@@ -16,6 +16,13 @@
 
     class Customer_DB extends CI_Model
     {
+
+/**************************************************************/
+/**************************************************************/
+/*********************** GET FUNCTIONS ************************/
+/**************************************************************/
+/**************************************************************/
+
         public function GetCustomerList($Company_ID)
         {
             $sql = "SELECT *
@@ -36,6 +43,12 @@
 
             return $this->db->query($sql)->result_array();
         }
+
+/**************************************************************/
+/**************************************************************/
+/******************** INSERT FUNCTIONS ************************/
+/**************************************************************/
+/**************************************************************/
 
         public function InsertNewCustomerData($First_Name, $Last_Name, $Billing_Address_1, $Billing_Address_2, 
             $Billing_City, $Billing_State, $Billing_Zip, $Billing_Country, $Delivery_Address_1, $Delivery_Address_2, 
@@ -66,6 +79,12 @@
 
             $this->db->insert('customers', $sql);
         }
+
+/**************************************************************/
+/**************************************************************/
+/********************* UPDATE FUNCTIONS ***********************/
+/**************************************************************/
+/**************************************************************/
 
         public function UpdateCustomerData($First_Name, $Last_Name, $Billing_Address_1, $Billing_Address_2, 
             $Billing_City, $Billing_State, $Billing_Zip, $Delivery_Address_1, $Delivery_Address_2, 

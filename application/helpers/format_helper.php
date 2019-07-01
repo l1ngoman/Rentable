@@ -44,6 +44,24 @@
         return $phoneNumber;
     }
 
+    // ATG:: GET TODAY'S DATE USING COMPANIES TIMEZONE FOR DB
+    function Helper_GetTodaysDate($Company_ID)
+    {
+        $CI = get_instance();
+		$CI->load->model('Company_DB');
+
+        // ATG:: GET TODAY'S DATE BASED ON COMPANY'S TIMEZONE
+		$Company_Timezone = $CI->Company_DB->GetCompanyTimeZone($Company_ID);
+		$Timezone = $Company_Timezone[0]['Local_Timezone'];
+
+		// ATG:: DEFAULT TO PST IF COMPANY TIMEZONE IS NOT SET
+		$Timezone = $Timezone != NULL ? $Timezone : 'America/Los_Angeles';
+
+        $date = new DateTime("now", new DateTimeZone($Timezone));
+        
+		return $date->format('Y-m-d');
+    }
+
     // ATG:: LIST OF ALL US STATES FOR STATE SELECT ON ADDRESS FORMS
     function Helper_State_List()
     {
