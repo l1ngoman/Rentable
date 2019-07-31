@@ -1,24 +1,29 @@
-<!--
-*************************************************
-* File Name: vendors.php
-*************************************************
-* Authors:
-*
-* Andrew T. Garrett
-*
-*************************************************
-* Description:
-*
-* 
-*************************************************
--->
 <?php
+// *************************************************
+// * File Name: vendors.php
+// *************************************************
+// * Authors:
+// *
+// * Andrew T. Garrett
+// *
+// *************************************************
+// * Description:
+// *
+// * 
+// *************************************************
+
 class Vendors extends CI_Controller 
 {
 
 	public function VendorList()
 	{
-		$Company_ID = 1;
+        $this->load->library('ion_Auth');
+        if (!$this->ion_auth->logged_in())
+        {
+          redirect('auth/login');
+        }
+
+		$Company_ID = $this->session->userdata('company_id');
 
 		$this->load->helper('Format');
 		$this->load->model('Vendor_DB');
@@ -33,6 +38,12 @@ class Vendors extends CI_Controller
 	
 	public function NewVendor()
 	{
+        $this->load->library('ion_Auth');
+        if (!$this->ion_auth->logged_in())
+        {
+          redirect('auth/login');
+        }
+
 		$this->load->helper('format');
 
 		$VendorInfo = array(
@@ -66,7 +77,13 @@ class Vendors extends CI_Controller
 
 	public function EditVendor($Vendor_ID)
 	{
-		$Company_ID = 1;
+        $this->load->library('ion_Auth');
+        if (!$this->ion_auth->logged_in())
+        {
+          redirect('auth/login');
+        }
+
+		$Company_ID = $this->session->userdata('company_id');
 
 		$this->load->helper('format');
 		$this->load->model('Vendor_DB');
@@ -88,8 +105,14 @@ class Vendors extends CI_Controller
 
 	public function SubmitNewVendorData()
 	{
-		$Company_ID = 1;
-		$User_ID = 2;
+        $this->load->library('ion_Auth');
+        if (!$this->ion_auth->logged_in())
+        {
+          redirect('auth/login');
+        }
+
+		$Company_ID = $this->session->userdata('company_id');
+		$User_ID = $this->session->userdata('user_id');
 
 		$this->load->helper('format');
 		$this->load->model('Vendor_DB');
@@ -106,16 +129,22 @@ class Vendors extends CI_Controller
 		$Website = 			$this->input->post('Website');
 		$Vendor_Notes = 	$this->input->post('Vendor_Notes');
 
-		$this->Vendor_DB->InsertNewVendorData($Vendor_Name, $Vendor_Address_1, $Vendor_Address_2, 
+		$New_Vendor_ID = $this->Vendor_DB->InsertNewVendorData($Vendor_Name, $Vendor_Address_1, $Vendor_Address_2, 
 			$Vendor_City, $Vendor_State, $Vendor_Zip, $Vendor_Country, $Phone, $Fax, $Website, 
 			$Vendor_Notes, $Company_ID, $User_ID);
 
-			echo '<script>window.location.href = "/index.php/vendors/VendorList";</script>';
+        header("Location: /index.php/vendors/EditVendor/$New_Vendor_ID");
 	}
 	
 	public function EditVendorData($Vendor_ID)
 	{
-		$Company_ID = 1;
+        $this->load->library('ion_Auth');
+        if (!$this->ion_auth->logged_in())
+        {
+          redirect('auth/login');
+        }
+        
+		$Company_ID = $this->session->userdata('company_id');
 
 		$this->load->helper('format');
 		$this->load->model('Vendor_DB');
@@ -135,6 +164,6 @@ class Vendors extends CI_Controller
 		$this->Vendor_DB->UpdateVendorData($Vendor_Name, $Vendor_Address_1, $Vendor_Address_2, 
 			$Vendor_City, $Vendor_State, $Vendor_Zip, $Phone, $Fax, $Vendor_Notes, $Website, $Company_ID, $Vendor_ID, $Active);
 
-		echo '<script>window.location.href = "/index.php/vendors/VendorList";</script>';
-	}
+        header("Location: /index.php/vendors/EditVendor/$Vendor_ID");
+    }
 }

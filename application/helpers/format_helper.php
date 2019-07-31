@@ -1,20 +1,19 @@
-<!--
-*************************************************
-* File Name: format_helper.php
-*************************************************
-* Authors:
-*
-* Andrew T. Garrett
-*
-*************************************************
-* Description:
-*
-* Helper file to store arrays or functions used
-* to build out view files or forms.
-*************************************************
--->
 <?php
-
+// <!--
+// *************************************************
+// * File Name: format_helper.php
+// *************************************************
+// * Authors:
+// *
+// * Andrew T. Garrett
+// *
+// *************************************************
+// * Description:
+// *
+// * Helper file to store arrays or functions used
+// * to build out view files or forms.
+// *************************************************
+// -->
     // ATG:: FORMAT STRING PHONE NUMBERS => (XXX) XXX-XXXX
     function HelperFormatPhoneNumber($phoneNumber) {
         $phoneNumber = preg_replace('/[^0-9]/','',$phoneNumber);
@@ -313,4 +312,3 @@
             "ZW" => "Zimbabwe"
             );
     }
-?>

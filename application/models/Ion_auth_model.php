@@ -919,7 +919,15 @@ class Ion_auth_model extends CI_Model
 
 		if ($query->num_rows() === 1)
 		{
-			$user = $query->row();
+            $user = $query->row();
+
+            $Company_ID = $this->db->query("  SELECT Company_ID
+                                FROM users
+                                WHERE id='$user->id'
+                                LIMIT 1")->result_array();
+
+            $user->company_id = $Company_ID[0]['Company_ID'];
+
 
 			if ($this->verify_password($password, $user->password, $identity))
 			{
@@ -1938,7 +1946,8 @@ class Ion_auth_model extends CI_Model
 		    'identity'             => $user->{$this->identity_column},
 		    $this->identity_column => $user->{$this->identity_column},
 		    'email'                => $user->email,
-		    'user_id'              => $user->id, //everyone likes to overwrite id so we'll use user_id
+            'user_id'              => $user->id, //everyone likes to overwrite id so we'll use user_id
+            'company_id'           => $user->company_id,
 		    'old_last_login'       => $user->last_login,
 		    'last_check'           => time(),
 		];

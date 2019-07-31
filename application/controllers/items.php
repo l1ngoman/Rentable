@@ -1,24 +1,29 @@
-<!--
-*************************************************
-* File Name: items.php
-*************************************************
-* Authors:
-*
-* Andrew T. Garrett
-*
-*************************************************
-* Description:
-*
-* 
-*************************************************
--->
 <?php
+// *************************************************
+// * File Name: items.php
+// *************************************************
+// * Authors:
+// *
+// * Andrew T. Garrett
+// *
+// *************************************************
+// * Description:
+// *
+// * 
+// *************************************************
+
 class Items extends CI_Controller 
 {
 
 	public function ItemList()
 	{
-		$Company_ID = 1;
+        $this->load->library('ion_Auth');
+        if (!$this->ion_auth->logged_in())
+        {
+          redirect('auth/login');
+        }
+
+		$Company_ID = $this->session->userdata('company_id');
 
 		$this->load->model('Item_DB');
 
@@ -32,7 +37,13 @@ class Items extends CI_Controller
 	
 	public function NewItem()
 	{
-		$Company_ID = 1;
+        $this->load->library('ion_Auth');
+        if (!$this->ion_auth->logged_in())
+        {
+          redirect('auth/login');
+        }
+
+		$Company_ID = $this->session->userdata('company_id');
 
 		$this->load->model('Item_DB');
 		$this->load->helper('format');
@@ -74,7 +85,13 @@ class Items extends CI_Controller
 
 	public function EditItem($Item_ID)
 	{
-		$Company_ID = 1;
+        $this->load->library('ion_Auth');
+        if (!$this->ion_auth->logged_in())
+        {
+          redirect('auth/login');
+        }
+
+		$Company_ID = $this->session->userdata('company_id');
 
 		$this->load->model('Item_DB');
 		$this->load->helper('format');
@@ -104,8 +121,14 @@ class Items extends CI_Controller
 
 	public function SubmitNewItemData()
 	{
-		$Company_ID = 1;
-		$User_ID = 2;
+        $this->load->library('ion_Auth');
+        if (!$this->ion_auth->logged_in())
+        {
+          redirect('auth/login');
+        }
+
+		$Company_ID = $this->session->userdata('company_id');
+		$User_ID = $this->session->userdata('user_id');
 
 		$this->load->model('Item_DB');
 
@@ -125,15 +148,21 @@ class Items extends CI_Controller
 			$Date_In_Service = date('Y-m-d H:i:s');
 		}
 
-		$this->Item_DB->InsertNewItemData($Item_Category_ID, $Vendor_ID, $Item_Name, $Part_Number, $Serial_Number, 
+		$New_Item_ID = $this->Item_DB->InsertNewItemData($Item_Category_ID, $Vendor_ID, $Item_Name, $Part_Number, $Serial_Number, 
 			$Tracking_Number, $Status, $Date_In_Service, $Taxable_Status, $Company_ID, $User_ID);
-
-		echo '<script>window.location.href = "/index.php/items/ItemList";</script>';
+        
+        header("Location: /index.php/items/EditItem/$New_Item_ID");
 	}
 	
 	public function EditItemData($Item_ID)
 	{
-		$Company_ID = 1;
+        $this->load->library('ion_Auth');
+        if (!$this->ion_auth->logged_in())
+        {
+          redirect('auth/login');
+        }
+        
+		$Company_ID = $this->session->userdata('company_id');
 
 		$this->load->helper('format');
 		$this->load->model('Item_DB');
@@ -151,6 +180,6 @@ class Items extends CI_Controller
 		$this->Item_DB->UpdateItemData($Item_Category_ID, $Vendor_ID, $Item_Name, $Part_Number, $Serial_Number, 
 			$Tracking_Number, $Date_In_Service, $Taxable_Status, $Active, $Item_ID, $Company_ID);
 
-		echo '<script>window.location.href = "/index.php/items/ItemList";</script>';
-	}
+        header("Location: /index.php/items/EditItem/$Item_ID");
+    }
 }

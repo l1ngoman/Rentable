@@ -1,24 +1,30 @@
-<!--
-*************************************************
-* File Name: customers.php
-*************************************************
-* Authors:
-*
-* Andrew T. Garrett
-*
-*************************************************
-* Description:
-*
-* 
-*************************************************
--->
 <?php
+// <!--
+// *************************************************
+// * File Name: customers.php
+// *************************************************
+// * Authors:
+// *
+// * Andrew T. Garrett
+// *
+// *************************************************
+// * Description:
+// *
+// * 
+// *************************************************
+// -->
 class Customers extends CI_Controller 
 {
 
 	public function CustomerList()
 	{
-		$Company_ID = 1;
+        $this->load->library('ion_Auth');
+        if (!$this->ion_auth->logged_in())
+        {
+          redirect('auth/login');
+        }
+
+		$Company_ID = $this->session->userdata('company_id');
 
 		$this->load->helper('Format');
 		$this->load->model('Customer_DB');
@@ -33,6 +39,12 @@ class Customers extends CI_Controller
 	
 	public function NewCustomer()
 	{
+        $this->load->library('ion_Auth');
+        if (!$this->ion_auth->logged_in())
+        {
+          redirect('auth/login');
+        }
+
 		$this->load->helper('format');
 
 		$CustomerInfo = array(
@@ -69,7 +81,13 @@ class Customers extends CI_Controller
 
 	public function EditCustomer($Customer_ID)
 	{
-		$Company_ID = 1;
+        $this->load->library('ion_Auth');
+        if (!$this->ion_auth->logged_in())
+        {
+          redirect('auth/login');
+        }
+
+		$Company_ID = $this->session->userdata('company_id');
 
 		$this->load->helper('format');
 		$this->load->model('Customer_DB');
@@ -91,8 +109,14 @@ class Customers extends CI_Controller
 
 	public function SubmitNewCustomerData()
 	{
-		$Company_ID = 1;
-		$User_ID = 2;
+        $this->load->library('ion_Auth');
+        if (!$this->ion_auth->logged_in())
+        {
+          redirect('auth/login');
+        }
+
+		$Company_ID = $this->session->userdata('company_id');
+		$User_ID = $this->session->userdata('user_id');
 
 		$this->load->helper('format');
 		$this->load->model('Customer_DB');
@@ -115,16 +139,22 @@ class Customers extends CI_Controller
 		$Phone_2 = 				$this->input->post('Phone_2');
 		$Notes = 				$this->input->post('Notes');
 
-		$this->Customer_DB->InsertNewCustomerData($First_Name, $Last_Name, $Billing_Address_1, $Billing_Address_2, 
+		$New_Customer_ID = $this->Customer_DB->InsertNewCustomerData($First_Name, $Last_Name, $Billing_Address_1, $Billing_Address_2, 
 			$Billing_City, $Billing_State, $Billing_Zip, $Billing_Country, $Delivery_Address_1, $Delivery_Address_2, 
 			$Delivery_City, $Delivery_State, $Delivery_Zip, $Delivery_Country, $Phone_1, $Phone_2, $Notes, $Company_ID, $User_ID);
 
-			echo '<script>window.location.href = "/index.php/customers/CustomerList";</script>';
+        header("Location: /index.php/customers/EditCustomer/$New_Customer_ID");
 	}
 	
 	public function EditCustomerData($Customer_ID)
 	{
-		$Company_ID = 1;
+        $this->load->library('ion_Auth');
+        if (!$this->ion_auth->logged_in())
+        {
+          redirect('auth/login');
+        }
+        
+		$Company_ID = $this->session->userdata('company_id');
 
 		$this->load->helper('format');
 		$this->load->model('Customer_DB');
@@ -150,6 +180,6 @@ class Customers extends CI_Controller
 			$Billing_City, $Billing_State, $Billing_Zip, $Delivery_Address_1, $Delivery_Address_2, 
 			$Delivery_City, $Delivery_State, $Delivery_Zip, $Phone_1, $Phone_2, $Notes, $Company_ID, $Customer_ID, $Active);
 
-		echo '<script>window.location.href = "/index.php/customers/CustomerList";</script>';
+        header("Location: /index.php/customers/EditCustomer/$Customer_ID");
 	}
 }

@@ -24,8 +24,23 @@
                     <div class='text-center mb-4'>
                         <a href='/index.php/customers/NewCustomer' class='text-secondary'>
                             New Customer
-                        </a>
-                    </div>
+                        </a>";
+    // echo "              <div class='dropdown'>
+    //                         <button class='btn btn-secondary dropdown-toggle' type='button' id='dropdownMenu1' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
+    //                             Dropdown
+    //                         </button>
+    //                         <div id='CustomerSelect' class='dropdown-menu'>
+    //                             <ul>";
+    // foreach($CustomerArray as $Customer)
+    // {
+    //     $Name = $Customer['Last_Name'].', '.$Customer['First_Name'];
+
+    //     echo "                      <li>$Name</li>";
+    // }
+    // echo "                      </ul>
+    //                         </div>
+    //                     </div>";
+    echo "          </div>
                 </nav>
             </header>";
             

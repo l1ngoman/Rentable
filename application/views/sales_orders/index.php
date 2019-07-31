@@ -55,11 +55,11 @@
                     </tr>";
         foreach($SalesOrderArray as $Order)
         {
-            $Status = $Order['Status'] == 'Open' ? 'text-primary' : 'text-secondary';
-            $Order_ID = $Order['Order_ID'];
-            $Customer_Name = $Order['Customer_Last'].', '.$Order['Customer_First'];
-            $SO_Date = $Order['SO_TimeStamp'];
-            $User_Name = $Order['User_First'].' '.$Order['User_Last'][0];
+            $Status         = $Order['SO_Status'] == 'Open' ? 'text-primary' : 'text-secondary';
+            $Order_ID       = $Order['SO_ID'];
+            $Customer_Name  = $Order['Customer_Last'].', '.$Order['Customer_First'];
+            $SO_Date        = $Order['SO_TimeStamp'];
+            $User_Name      = $Order['User_First'].' '.$Order['User_Last'][0];
     
             echo "  <tr>
                         <td style='width='30px'>
