@@ -69,6 +69,11 @@ function UpdateExtAmountEditSO(Counter){
     $("#SO_Extended_Order_Total").val(grandTotal_formatted);
 }
 
+function ValidateCurrency()
+{
+    const twoDecimals = Math.round(event.target.value * 100) / 100;
+    $(`#${event.target.id}`).val(twoDecimals);
+}
 
 // $(function() {
 //     $('#CustomerSearch').dropselect();

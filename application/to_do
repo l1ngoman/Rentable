@@ -1,0 +1,25 @@
+
+
+TO DO Later:
+Make a home/landing page - dashboard?
+Add timestamps to all tables
+Add Non-tax reason
+Fix JS imports from footer
+Clean up spacing for arrays and variable equals
+
+
+PLAN OF ATTACK:
+- work on sales orders
+    - JS bug that I think is due to some tax fields I changed on the SO form. Maybe hold off until the SO
+        page is completely done, since this JS will probably keep breaking as I keep changing it around.
+    - A user can make a new sales order with or without items on it, but it has to be tied to a customer.
+    - A user can add/remove items from the sales order and modify information on it.
+    - A user can 'sell' items on the sales order to keep as receipt records of sale -> new schema.
+    - A user can toggle the status of a sales order manual or cancel an order
+        - Sales orders cannot be deleted unless they don't have items attached? - work on this concept
+- work on rental orders
+    - Very similar to sales orders
+    - Will need to create infrastructure for rental items first -> items need to be taken out of regular
+        inventory to be turned into rental items -> think about the Brightree concept where you set up items
+        to be rental & purchase -> maybe worth looking into?
+    

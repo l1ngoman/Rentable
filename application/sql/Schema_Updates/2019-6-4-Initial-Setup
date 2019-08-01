@@ -83,19 +83,66 @@ CREATE TABLE `rentable`.`items` (
   `Vendor_ID` INT(11) NULL,
   `Item_Name` VARCHAR(45) NOT NULL,
   `Part_Number` VARCHAR(45) NOT NULL,
-  `Serial_Number` VARCHAR(45) NULL,
-  `Tracking_Number` VARCHAR(45) NULL,
-  `Status` VARCHAR(45) NOT NULL,
-  `Item_Price` FLOAT(7,2) NULL,
-  `Date_In_Service` DATETIME NOT NULL,
-  `Date_Sold` DATETIME NULL,
-  `Taxable_Status` TINYINT(1) NULL,
+  `Sale_Price` FLOAT(7,2) NULL,
+  `Vendor_Cost` FLOAT(7,2) NULL,
+  `Track_Inventory` TINYINT(1) NOT NULL,
+  `Quantity_In_Stock` INT NULL,
+  `Reorder_Point` INT(7) NULL,
+  `Item_Tax_Reason_ID` INT(11) NOT NULL,
   `Company_ID` VARCHAR(45) NOT NULL,
   `User_ID` VARCHAR(45) NOT NULL,
   `Active` TINYINT(1) NULL,
   `Item_TimeStamp` DATETIME NULL,
+  `Item_Notes` VARCHAR(255) NULL,
+  `Item_Attribute` VARCHAR(20) NULL,
+  `Item_Size` VARCHAR(20) NULL,
+  `Item_Weight` VARCHAR(12) NULL;
   PRIMARY KEY (`Item_ID`),
   UNIQUE INDEX `Item_ID_UNIQUE` (`Item_ID` ASC));
+
+CREATE TABLE `rentable`.`serialized_items` (
+  `Serial_Item_ID` INT(11) NOT NULL,
+  `Item_ID` INT(11) NOT NULL,
+  `Item_Status_ID` INT(11) NOT NULL,
+  `Serial_Number` VARCHAR(45) NOT NULL,
+  `Date_Sold` DATE NULL,
+  `Date_Lost` DATE NULL,
+  `Date_Destroyed` DATE NULL,
+  `Company_ID` VARCHAR(45) NOT NULL,
+  `User_ID` VARCHAR(45) NOT NULL,
+  `Serial_Item_Timestamp` DATETIME NOT NULL,
+  PRIMARY KEY (`Serial_Item_ID`),
+  UNIQUE INDEX `Serial_Item_ID_UNIQUE` (`Serial_Item_ID` ASC));
+
+CREATE TABLE `rentable`.`lotted_items` (
+  `Lotted_Item_ID` int(11) NOT NULL,
+  `Item_ID` int(11) NOT NULL,
+  `Lot_Number` varchar(45) NOT NULL,
+  `Quantity_In_Stock` INT DEFAULT NULL,
+  `Purchase_Order_ID` int(11) NULL,
+  `Company_ID` varchar(45) NOT NULL,
+  `User_ID` varchar(45) NOT NULL,
+  `Lotted_Item_Timestamp` datetime NOT NULL,
+  PRIMARY KEY (`Lotted_Item_ID`),
+  UNIQUE KEY `Lotted_Item_ID_UNIQUE` (`Lotted_Item_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `rentable`.`rental_items` (
+  `Rental_Item_ID` int(11) NOT NULL,
+  `Item_ID` int(11) NOT NULL,
+  `Item_Status_ID` INT(11) NOT NULL,
+  `Serial_Item_ID` int(11) DEFAULT NULL,
+  `Tracking_Number` varchar(45) NOT NULL,
+  `Acquisition_Cost` float(7,2) NOT NULL,
+  `Date_Sold` DATE NULL,
+  `Date_Lost` DATE NULL,
+  `Date_Destroyed` DATE NULL,
+  `Company_ID` varchar(45) NOT NULL,
+  `User_ID` varchar(45) NOT NULL,
+  `Rental_Item_Timestamp` datetime NOT NULL,
+  PRIMARY KEY (`Rental_Item_ID`),
+  UNIQUE KEY `Rental_Item_ID_UNIQUE` (`Rental_Item_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `rentable`.`sales_orders` (
   `SO_ID` INT NOT NULL AUTO_INCREMENT,
@@ -132,3 +179,45 @@ CREATE TABLE `rentable`.`sales_order_items` (
 
 ALTER TABLE `rentable`.`users` 
 ADD COLUMN `Company_ID` INT(11) NOT NULL AFTER `phone`;
+
+
+CREATE TABLE `rentable`.`item_status` (
+  `Item_Status_ID` INT NOT NULL AUTO_INCREMENT,
+  `Status_Name` VARCHAR(45) NOT NULL,
+  `Company_ID` INT(11) NOT NULL,
+  `User_ID` INT(11) NOT NULL,
+  `Item_Status_Timestamp` DATETIME NOT NULL
+  PRIMARY KEY (`Item_Status_ID`));
+  UNIQUE INDEX `Item_Status_ID_UNIQUE` (`Item_Status_ID` ASC);
+
+CREATE TABLE `rentable`.`item_tax_reasons` (
+  `Item_Tax_Reason_ID` INT(11) NOT NULL AUTO_INCREMENT,
+  `Reason_Title` VARCHAR(18) NOT NULL,
+  `Reason_Description` VARCHAR(100) NULL,
+  `Company_ID` INT(11) NOT NULL,
+  `User_ID` INT(11) NOT NULL,
+  `Item_Tax_Reason_Timestamp` DATETIME NOT NULL,
+  PRIMARY KEY (`Item_Tax_Reason_ID`),
+  UNIQUE INDEX `Item_Tax_Reason_ID_UNIQUE` (`Item_Tax_Reason_ID` ASC));
+
+  CREATE TABLE `rentable`.`item_unit_names` (
+  `Item_Unit_Name_ID` INT(11) NOT NULL AUTO_INCREMENT,
+  `Unit_Name` VARCHAR(12) NOT NULL,
+  `Unit_Abbreviation` VARCHAR(2) NOT NULL,
+  `Company_ID` INT(11) NOT NULL,
+  `User_ID` INT(11) NOT NULL,
+  `Item_Unit_Timestamp` DATETIME NOT NULL,
+  PRIMARY KEY (`Item_Unit_Name_ID`),
+  UNIQUE INDEX `Item_Unit_Name_ID_UNIQUE` (`Item_Unit_Name_ID` ASC));
+
+CREATE TABLE `rentable`.`item_unit_conversions` (
+  `Item_Unit_Conversion_ID` INT(11) NOT NULL AUTO_INCREMENT,
+  `Item_ID` INT(11) NOT NULL,
+  `Base_Item_Unit_Name_ID` INT(11) NOT NULL COMMENT 'References the item_unit_names table',
+  `Expanded_Item_Unit_Name_ID` INT(11) NOT NULL COMMENT 'References the item_unit_names table',
+  `Multiplier` INT(7) NOT NULL,
+  `Company_ID` INT(11) NOT NULL,
+  `User_ID` INT(11) NOT NULL,
+  `Item_Unit_Conversion_Timestamp` DATETIME NOT NULL,
+  PRIMARY KEY (`Item_Unit_Conversion_ID`),
+  UNIQUE INDEX `Item_Unit_Conversion_ID_UNIQUE` (`Item_Unit_Conversion_ID` ASC));

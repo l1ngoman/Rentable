@@ -32,7 +32,8 @@ class Items extends CI_Controller
 		$this->load->view('templates/header.php');
 		$this->load->view('items/index.php', array(
 			'ItemArray' => $ItemArray,
-		));
+        ));
+        $this->load->view('templates/footer.php');
 	}
 	
 	public function NewItem()
@@ -55,12 +56,17 @@ class Items extends CI_Controller
 			'Vendor_ID' => '',
 			'Item_Name' => '',
 			'Part_Number' => '',
-			'Serial_Number' => '',
-			'Tracking_Number' => '',
-			'Status' => '',
-			'Date_In_Service' => '',
-			'Date_Sold' => '',
-			'Taxable_Status' => '',
+			'Sale_Price' => '',
+			'Vendor_Cost' => '',
+			'Item_Tax_Reason_ID' => '',
+			'Track_Inventory' => '',
+			'Stock_Unit_Name_ID' => '',
+			'Quantity_In_Stock' => '',
+			'Reorder_Point' => '',
+			'Item_Notes' => '',
+			'Item_Attribute' => '',
+			'Item_Size' => '',
+			'Item_Weight' => '',
 		);
 
 		$FormInfo = array(
@@ -71,7 +77,9 @@ class Items extends CI_Controller
 		);
 
 		$VendorList = $this->Item_DB->GetVendorList($Company_ID);
-		$ItemCategoryList = $this->Item_DB->GetItemCategoryList($Company_ID);
+        $ItemCategoryList = $this->Item_DB->GetItemCategoryList($Company_ID);
+        $ItemTaxReasonList = $this->Item_DB->GetItemTaxReasonList($Company_ID);
+        $ItemUnitNameList = $this->Item_DB->GetItemUnitNameList($Company_ID);
 
 		$this->load->view('templates/header.php');
 		$this->load->view('items/form.php', array(
@@ -79,8 +87,11 @@ class Items extends CI_Controller
 			'FormInfo' => $FormInfo,
 			'VendorList' => $VendorList,
 			'ItemCategoryList' => $ItemCategoryList,
+			'ItemTaxReasonList' => $ItemTaxReasonList,
+			'ItemUnitNameList' => $ItemUnitNameList,
 			'Today' => $Today,
-		));
+        ));
+        $this->load->view('templates/footer.php');
 	}
 
 	public function EditItem($Item_ID)
@@ -100,7 +111,9 @@ class Items extends CI_Controller
 		
 		$ItemInfo = $this->Item_DB->GetItemByID($Item_ID, $Company_ID);
 		$VendorList = $this->Item_DB->GetVendorList($Company_ID);
-		$ItemCategoryList = $this->Item_DB->GetItemCategoryList($Company_ID);
+        $ItemCategoryList = $this->Item_DB->GetItemCategoryList($Company_ID);
+        $ItemTaxReasonList = $this->Item_DB->GetItemTaxReasonList($Company_ID);
+        $ItemUnitNameList = $this->Item_DB->GetItemUnitNameList($Company_ID);
 
 		$FormInfo = array(
 			'PageTitle' => 'Edit Item',
@@ -114,9 +127,12 @@ class Items extends CI_Controller
 			'ItemInfo' => $ItemInfo[0],
 			'FormInfo' => $FormInfo,
 			'VendorList' => $VendorList,
-			'ItemCategoryList' => $ItemCategoryList,
+            'ItemCategoryList' => $ItemCategoryList,
+            'ItemTaxReasonList' => $ItemTaxReasonList,
+            'ItemUnitNameList' => $ItemUnitNameList,
 			'Today' => $Today,
-		));
+        ));
+        $this->load->view('templates/footer.php');
 	}
 
 	public function SubmitNewItemData()

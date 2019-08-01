@@ -52,6 +52,30 @@
             return $this->db->query($sql)->result_array();
         }
 
+        // ATG:: NOTE - COMPANY_ID OF ZERO IS A DEFAULT SYSTEM VALUE FOR ALL COMPANIES
+        public function GetItemTaxReasonList($Company_ID)
+        {
+            $sql = "SELECT *
+                    FROM item_tax_reasons
+                    WHERE Company_ID='$Company_ID'
+                    OR Company_ID='0'
+                    ORDER BY Reason_Title ASC";
+
+            return $this->db->query($sql)->result_array();
+        }
+
+        // ATG:: NOTE - COMPANY_ID OF ZERO IS A DEFAULT SYSTEM VALUE FOR ALL COMPANIES
+        public function GetItemUnitNameList($Company_ID)
+        {
+            $sql = "SELECT *
+                    FROM item_unit_names
+                    WHERE Company_ID='$Company_ID'
+                    OR Company_ID='0'
+                    ORDER BY Unit_Name ASC";
+
+            return $this->db->query($sql)->result_array();
+        }
+
         public function GetItemByID($Item_ID, $Company_ID)
         {
             $sql = "SELECT *
@@ -63,6 +87,7 @@
             return $this->db->query($sql)->result_array();
         }
 
+        // ?????
         public function GetItemTaxStatus($Item_ID)
         {
             $sql = "SELECT Taxable_Status
